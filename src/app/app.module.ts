@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MarketComponent } from './market/market.component';
 import { TradersComponent } from './traders/traders.component';
+import {TradersService} from './traders/traders.service';
 import {RoutingModule} from './routing/routing.module';
 
 
@@ -17,7 +18,7 @@ import {RoutingModule} from './routing/routing.module';
     BrowserModule,
     RoutingModule
   ],
-  providers: [],
+  providers: [TradersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import {Trader} from '../Domain/Trader';
+import {TradersService} from './traders.service';
 
 @Component({
   selector: 'app-traders',
   templateUrl: './traders.component.html',
   styleUrls: ['./traders.component.css']
 })
-export class TradersComponent implements OnInit
-{
+export class TradersComponent implements OnInit {
   traders: Trader[];
-  ngOnInit()
-  {
-    this.traders = this.getMockTraders();
-  }
-  private getMockTraders(): Trader[] {
-    const traders: Trader[] = [];
-    traders.push(new Trader('John'));
-    traders.push(new Trader('Paul'));
-    traders.push(new Trader('George'));
-    traders.push(new Trader('Ringo'));
-    return traders;
+  constructor(private tradersService: TradersService) { }
+  ngOnInit() {
+    this.traders = [];
+    this.tradersService.getTraders().then(result => this.traders = result);
+    this.updateTraders();
   }
   add(name: string) {
-    this.traders.push(new Trader(name));
+    this.tradersService.add(name);
+  }
+  private updateTraders() {
+    this.tradersService.getTraders().then(result => this.traders = result);
   }
 }
+
