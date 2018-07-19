@@ -9,7 +9,7 @@ import {RoutingModule} from './routing/routing.module';
 import {MarketServiceImpl} from './market/market.service';
 import {HttpClientModule} from '@angular/common/http';
 import { TraderDetailsComponent } from './trader-details/trader-details.component';
-
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -22,7 +22,8 @@ import { TraderDetailsComponent } from './trader-details/trader-details.componen
   imports: [
     BrowserModule,
     RoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [TradersService, MarketServiceImpl],
   bootstrap: [AppComponent]
