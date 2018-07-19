@@ -1,24 +1,46 @@
-export class Trader
-{
-  constructor(private name: string) { }
-  getName(): string
-  {
+import {Trade} from './Trade';
+
+export class Trader {
+  private portfolio: Trade[];
+  constructor(private name: string) {
+    this.portfolio = [];
+  }
+  getName(): string {
     return this.name;
   }
-  getReleasedPnL(): number
-  {
-    return this.getRoundedPnL(0);
-  }
-  getUnreleasedPnL(): number
-  {
-    return this.getRoundedPnL(0);
-  }
-  getTotalPnL(): number
-  {
-    return this.getRoundedPnL(this.getReleasedPnL() + this.getUnreleasedPnL());
-  }
-  private getRoundedPnL(pnl): number
-  {
+  private getRoundedPnL(pnl): number {
     return Math.round(pnl * 100 + Number.EPSILON) / 100;
+  }
+  addToPortfolio(trade: Trade) {
+    this.portfolio.push(trade);
+  }
+  getPortfolio(): Trade[] {
+    return this.portfolio;
+  }
+
+  getOpenTrades(): Trade[] {
+    return this.portfolio.filter(trade => trade.isOpen);
+  }
+  getClosedTrades(): Trade[] {
+    return this.portfolio.filter(trade => !trade.isOpen);
+  }
+  getReleasedPnL(): number {
+    let pnl = 0;
+    for (const trade of this.portfolio) {
+      pnl += trade.getReleasedPnL();
+    }
+    return this.getRoundedPnL(pnl);
+  }
+  getUnreleasedPnL(): number {
+    let pnl = 0;
+    for (const trade of this.portfolio) {
+      if (trade.isOpen) {
+        pnl += trade.getUnreleasedPnL();
+      }
+    }
+    return this.getRoundedPnL(pnl);
+  }
+  getTotalPnL(): number {
+    return this.getRoundedPnL(this.getReleasedPnL() + this.getUnreleasedPnL());
   }
 }
